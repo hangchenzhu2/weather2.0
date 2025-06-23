@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Alert System - USA</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- 头部导航 -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-cloud-sun"></i>
+                <h1>Weather Alert USA</h1>
+            </div>
+            <div class="header-controls">
+                <button id="favorites-btn" class="btn btn-icon" title="Favorite Locations">
+                    <i class="fas fa-heart"></i>
+                </button>
+                <button id="settings-btn" class="btn btn-icon" title="Settings">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <button id="fullscreen-btn" class="btn btn-icon" title="Full Screen">
+                    <i class="fas fa-expand"></i>
+                </button>
+                <div class="api-status">
+                    <span id="api-status" class="status-indicator">
+                        <i class="fas fa-circle"></i> API Status
+                    </span>
+                </div>
+            </div>
+        </header>
+
+        <!-- 预警横幅 -->
+        <div id="alert-banner" class="alert-banner hidden">
+            <div class="alert-content">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div class="alert-text">
+                    <h3 id="alert-title">Weather Alert</h3>
+                    <p id="alert-description">Alert description</p>
+                </div>
+                <button id="close-alert" class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 位置选择区域 -->
+        <section class="location-section">
+            <div class="location-controls">
+                <button id="gps-btn" class="btn btn-primary">
+                    <i class="fas fa-location-arrow"></i>
+                    Use My Location
+                </button>
+                <div class="search-container">
+                    <input type="text" id="city-search" placeholder="Enter US city name...">
+                    <button id="search-btn" class="btn btn-secondary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="current-location" class="current-location">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Location not selected</span>
+            </div>
+        </section>
+
+        <!-- 主要天气信息 -->
+        <main class="weather-main">
+            <div class="weather-card">
+                <div class="weather-primary">
+                    <div class="weather-icon">
+                        <i id="main-weather-icon" class="fas fa-question"></i>
+                    </div>
+                    <div class="weather-info">
+                        <div class="temperature">
+                            <span id="current-temp">--</span>
+                            <span class="unit">°F</span>
+                        </div>
+                        <div class="weather-desc" id="weather-desc">Loading...</div>
+                        <div class="feels-like">
+                            Feels like <span id="feels-like">--</span>°F
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="weather-details">
+                    <div class="detail-item">
+                        <i class="fas fa-eye"></i>
+                        <span>Visibility</span>
+                        <span id="visibility">-- mi</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-tint"></i>
+                        <span>Humidity</span>
+                        <span id="humidity">--%</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-wind"></i>
+                        <span>Wind</span>
+                        <span id="wind-speed">-- mph</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-thermometer-half"></i>
+                        <span>Pressure</span>
+                        <span id="pressure">-- inHg</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-sun"></i>
+                        <span>UV Index</span>
+                        <span id="uv-index">--</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-leaf"></i>
+                        <span>Air Quality</span>
+                        <span id="air-quality">--</span>
+                    </div>
+                </div>
+                
+                <!-- 天文信息 -->
+                <div class="astronomy-info">
+                    <div class="astronomy-item">
+                        <i class="fas fa-sun"></i>
+                        <div>
+                            <span class="label">Sunrise</span>
+                            <span id="sunrise">--:--</span>
+                        </div>
+                    </div>
+                    <div class="astronomy-item">
+                        <i class="fas fa-moon"></i>
+                        <div>
+                            <span class="label">Sunset</span>
+                            <span id="sunset">--:--</span>
+                        </div>
+                    </div>
+                    <div class="astronomy-item">
+                        <span id="moon-phase-icon">🌙</span>
+                        <div>
+                            <span class="label">Moon Phase</span>
+                            <span id="moon-phase">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 生活指数 -->
+        <section class="life-indices-section">
+            <h2>Life Indices</h2>
+            <div class="indices-grid">
+                <div class="index-card">
+                    <div class="index-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <div class="index-content">
+                        <h3>Dressing</h3>
+                        <div class="index-value" id="dressing-index">--</div>
+                        <p class="index-advice" id="dressing-advice">Loading...</p>
+                    </div>
+                </div>
+                <div class="index-card">
+                    <div class="index-icon">
+                        <i class="fas fa-running"></i>
+                    </div>
+                    <div class="index-content">
+                        <h3>Exercise</h3>
+                        <div class="index-value" id="exercise-index">--</div>
+                        <p class="index-advice" id="exercise-advice">Loading...</p>
+                    </div>
+                </div>
+                <div class="index-card">
+                    <div class="index-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="index-content">
+                        <h3>Travel</h3>
+                        <div class="index-value" id="travel-index">--</div>
+                        <p class="index-advice" id="travel-advice">Loading...</p>
+                    </div>
+                </div>
+                <div class="index-card">
+                    <div class="index-icon">
+                        <i class="fas fa-car-side"></i>
+                    </div>
+                    <div class="index-content">
+                        <h3>Car Wash</h3>
+                        <div class="index-value" id="carwash-index">--</div>
+                        <p class="index-advice" id="carwash-advice">Loading...</p>
+                    </div>
+                </div>
+                <div class="index-card">
+                    <div class="index-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="index-content">
+                        <h3>Allergy</h3>
+                        <div class="index-value" id="allergy-index">--</div>
+                        <p class="index-advice" id="allergy-advice">Loading...</p>
+                    </div>
+                </div>
+                <div class="index-card">
+                    <div class="index-icon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <div class="index-content">
+                        <h3>UV Protection</h3>
+                        <div class="index-value" id="uv-level">--</div>
+                        <p class="index-advice" id="uv-advice">Loading...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 天气图表 -->
+        <section class="charts-section">
+            <h2>Weather Charts</h2>
+            <div class="charts-container">
+                <div class="chart-card">
+                    <h3>Temperature Trend</h3>
+                    <canvas id="temperature-chart" width="400" height="200"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Precipitation Chance</h3>
+                    <canvas id="precipitation-chart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5天预报 -->
+        <section class="forecast-section">
+            <h2>5-Day Forecast</h2>
+            <div id="forecast-container" class="forecast-container">
+                <!-- 预报卡片将通过JavaScript动态生成 -->
+            </div>
+        </section>
+
+        <!-- 天气预警列表 -->
+        <section class="alerts-section">
+            <h2>Weather Alerts</h2>
+            <div id="alerts-container" class="alerts-container">
+                <div class="no-alerts">
+                    <i class="fas fa-check-circle"></i>
+                    <p>No active weather alerts for this area</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 加载指示器 -->
+        <div id="loading-overlay" class="loading-overlay">
+            <div class="spinner"></div>
+            <p>Loading weather data...</p>
+        </div>
+    </div>
+
+    <!-- 设置面板 -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button class="close-btn" id="close-settings">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-group">
+                    <h3>Appearance</h3>
+                    <div class="setting-item">
+                        <label for="theme-select">Theme:</label>
+                        <select id="theme-select">
+                            <option value="dark">Dark</option>
+                            <option value="light">Light</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="settings-group">
+                    <h3>Units</h3>
+                    <div class="setting-item">
+                        <label for="temp-unit">Temperature:</label>
+                        <select id="temp-unit">
+                            <option value="fahrenheit">Fahrenheit (°F)</option>
+                            <option value="celsius">Celsius (°C)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="settings-group">
+                    <h3>Features</h3>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="notifications-toggle"> Enable Notifications
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="voice-toggle"> Voice Announcements
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="animations-toggle"> Animations
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="settings-group">
+                    <h3>Data</h3>
+                    <div class="setting-item">
+                        <button id="reset-settings" class="btn btn-warning">Reset All Settings</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 收藏位置面板 -->
+    <div id="favorites-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Favorite Locations</h2>
+                <button class="close-btn" id="close-favorites">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="favorites-controls">
+                    <button id="add-current-location" class="btn btn-primary" onclick="app.addCurrentToFavorites()">
+                        <i class="fas fa-plus"></i> Add Current Location
+                    </button>
+                </div>
+                <div id="favorites-list" class="favorites-list">
+                    <div class="no-favorites">
+                        <i class="fas fa-heart"></i>
+                        <p>No favorite locations yet</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 分享面板 -->
+    <div id="share-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Share Weather</h2>
+                <button class="close-btn" id="close-share">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="share-options">
+                    <button id="share-text" class="btn btn-primary" onclick="app.shareWeatherText()">
+                        <i class="fas fa-share-alt"></i> Share as Text
+                    </button>
+                    <button id="share-link" class="btn btn-secondary" onclick="app.copyWeatherLink()">
+                        <i class="fas fa-link"></i> Copy Link
+                    </button>
+                    <button id="speak-weather" class="btn btn-success" onclick="app.speakWeather()">
+                        <i class="fas fa-volume-up"></i> Speak Weather
+                    </button>
+                </div>
+                <div class="share-preview">
+                    <h3>Weather Summary</h3>
+                    <div id="share-content">
+                        Weather information will appear here...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 浮动控制按钮 -->
+    <div class="floating-controls">
+        <button id="refresh-btn" class="fab" title="Refresh">
+            <i class="fas fa-refresh"></i>
+        </button>
+        <button id="share-btn" class="fab" title="Share">
+            <i class="fas fa-share-alt"></i>
+        </button>
+        <button id="voice-btn" class="fab" title="Voice Weather">
+            <i class="fas fa-volume-up"></i>
+        </button>
+    </div>
+
+    <!-- 脚本文件 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="weather-api.js"></script>
+    <script src="location.js"></script>
+    <script src="alerts.js"></script>
+    <script src="settings.js"></script>
+    <script src="charts.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
