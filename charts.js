@@ -59,7 +59,7 @@ class WeatherCharts {
     drawLineChart(ctx, canvas, labels, datasets) {
         const width = canvas.width;
         const height = canvas.height;
-        const padding = 40;
+        const padding = 50;
         
         // 清空画布
         ctx.clearRect(0, 0, width, height);
@@ -81,14 +81,18 @@ class WeatherCharts {
         const minVal = Math.min(...allData) - 5;
         const maxVal = Math.max(...allData) + 5;
         
-        // 绘制数据线
-        datasets.forEach(dataset => {
+        // 绘制数据线和数据点
+        datasets.forEach((dataset, datasetIndex) => {
             ctx.strokeStyle = dataset.color;
+            ctx.fillStyle = dataset.color;
+            ctx.lineWidth = 3;
             ctx.beginPath();
             
+            const points = [];
             dataset.data.forEach((value, index) => {
                 const x = padding + (index * (width - 2 * padding)) / (labels.length - 1);
                 const y = height - padding - ((value - minVal) * (height - 2 * padding)) / (maxVal - minVal);
+                points.push({ x, y, value });
                 
                 if (index === 0) {
                     ctx.moveTo(x, y);
@@ -98,13 +102,48 @@ class WeatherCharts {
             });
             
             ctx.stroke();
+            
+            // 绘制数据点和数值
+            points.forEach(point => {
+                // 绘制数据点
+                ctx.beginPath();
+                ctx.arc(point.x, point.y, 4, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                // 绘制数值标签
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '11px Arial';
+                const textY = datasetIndex === 0 ? point.y - 10 : point.y + 20;
+                ctx.fillText(Math.round(point.value) + '°', point.x - 8, textY);
+                ctx.fillStyle = dataset.color;
+            });
         });
         
-        // 绘制标签
+        // 绘制X轴标签
         ctx.fillStyle = '#ffffff';
+        ctx.font = '12px Arial';
         labels.forEach((label, index) => {
             const x = padding + (index * (width - 2 * padding)) / (labels.length - 1);
             ctx.fillText(label, x - 15, height - 10);
+        });
+        
+        // 绘制Y轴刻度
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '10px Arial';
+        for (let i = 0; i <= 5; i++) {
+            const value = minVal + (maxVal - minVal) * (i / 5);
+            const y = height - padding - (i * (height - 2 * padding)) / 5;
+            ctx.fillText(Math.round(value) + '°', 5, y + 3);
+        }
+        
+        // 绘制图例
+        ctx.font = '12px Arial';
+        let legendX = width - 150;
+        datasets.forEach((dataset, index) => {
+            ctx.fillStyle = dataset.color;
+            ctx.fillRect(legendX, 15 + index * 20, 15, 3);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(dataset.label, legendX + 20, 20 + index * 20);
         });
     }
 

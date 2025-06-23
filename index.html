@@ -88,35 +88,41 @@
                 </div>
                 
                 <div class="weather-details">
-                    <div class="detail-item">
-                        <i class="fas fa-eye"></i>
-                        <span>Visibility</span>
-                        <span id="visibility">-- mi</span>
+                    <div class="detail-row">
+                        <div class="detail-item">
+                            <i class="fas fa-eye"></i>
+                            <span>Visibility</span>
+                            <span id="visibility">-- mi</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-tint"></i>
+                            <span>Humidity</span>
+                            <span id="humidity">--%</span>
+                        </div>
                     </div>
-                    <div class="detail-item">
-                        <i class="fas fa-tint"></i>
-                        <span>Humidity</span>
-                        <span id="humidity">--%</span>
+                    <div class="detail-row">
+                        <div class="detail-item">
+                            <i class="fas fa-wind"></i>
+                            <span>Wind</span>
+                            <span id="wind-speed">-- mph</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-thermometer-half"></i>
+                            <span>Pressure</span>
+                            <span id="pressure">-- inHg</span>
+                        </div>
                     </div>
-                    <div class="detail-item">
-                        <i class="fas fa-wind"></i>
-                        <span>Wind</span>
-                        <span id="wind-speed">-- mph</span>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-thermometer-half"></i>
-                        <span>Pressure</span>
-                        <span id="pressure">-- inHg</span>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-sun"></i>
-                        <span>UV Index</span>
-                        <span id="uv-index">--</span>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-leaf"></i>
-                        <span>Air Quality</span>
-                        <span id="air-quality">--</span>
+                    <div class="detail-row">
+                        <div class="detail-item">
+                            <i class="fas fa-sun"></i>
+                            <span>UV Index</span>
+                            <span id="uv-index">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-leaf"></i>
+                            <span>Air Quality</span>
+                            <span id="air-quality">--</span>
+                        </div>
                     </div>
                 </div>
                 
@@ -327,7 +333,7 @@
             </div>
             <div class="modal-body">
                 <div class="favorites-controls">
-                    <button id="add-current-location" class="btn btn-primary" onclick="app.addCurrentToFavorites()">
+                    <button id="add-current-location" class="btn btn-primary">
                         <i class="fas fa-plus"></i> Add Current Location
                     </button>
                 </div>
@@ -352,13 +358,13 @@
             </div>
             <div class="modal-body">
                 <div class="share-options">
-                    <button id="share-text" class="btn btn-primary" onclick="app.shareWeatherText()">
+                    <button id="share-text" class="btn btn-primary">
                         <i class="fas fa-share-alt"></i> Share as Text
                     </button>
-                    <button id="share-link" class="btn btn-secondary" onclick="app.copyWeatherLink()">
+                    <button id="share-link" class="btn btn-secondary">
                         <i class="fas fa-link"></i> Copy Link
                     </button>
-                    <button id="speak-weather" class="btn btn-success" onclick="app.speakWeather()">
+                    <button id="speak-weather" class="btn btn-success">
                         <i class="fas fa-volume-up"></i> Speak Weather
                     </button>
                 </div>

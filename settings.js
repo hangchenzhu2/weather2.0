@@ -97,12 +97,44 @@ class SettingsManager {
         const theme = this.themes[themeName] || this.themes.dark;
         const root = document.documentElement;
         
+        // 设置CSS变量
         Object.keys(theme).forEach(key => {
-            root.style.setProperty(`--${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`, theme[key]);
+            const cssVar = `--${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
+            root.style.setProperty(cssVar, theme[key]);
         });
         
+        // 更新body类名
         document.body.className = document.body.className.replace(/theme-\w+/g, '');
         document.body.classList.add(`theme-${themeName}`);
+        
+        // 直接修改关键样式
+        if (themeName === 'light') {
+            // 浅色主题
+            document.body.style.background = 'linear-gradient(135deg, #74b9ff 0%, #0984e3 50%, #6c5ce7 100%)';
+            const cards = document.querySelectorAll('.weather-card, .index-card, .chart-card');
+            cards.forEach(card => {
+                card.style.background = 'rgba(255, 255, 255, 0.9)';
+                card.style.color = '#333';
+            });
+            
+            const headers = document.querySelectorAll('h2, h3');
+            headers.forEach(header => {
+                header.style.color = '#333';
+            });
+        } else {
+            // 深色主题
+            document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)';
+            const cards = document.querySelectorAll('.weather-card, .index-card, .chart-card');
+            cards.forEach(card => {
+                card.style.background = 'rgba(255, 255, 255, 0.15)';
+                card.style.color = '#fff';
+            });
+            
+            const headers = document.querySelectorAll('h2, h3');
+            headers.forEach(header => {
+                header.style.color = '#fff';
+            });
+        }
     }
 
     // 温度单位转换
