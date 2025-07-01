@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: http://localhost:3000/sitemap.xml
+
+# Crawl-delay for all bots (optional, helps prevent server overload)
+Crawl-delay: 1
+
+# Allow indexing of CSS and JS files for better SEO
+Allow: /style.css
+Allow: /script.js
+Allow: /weather-api.js
+Allow: /location.js
+Allow: /alerts.js
+Allow: /settings.js
+Allow: /charts.js
+
+# Block any sensitive files (if any)
+Disallow: /config/
+Disallow: /.env
+Disallow: /logs/ 

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+    
+    <!-- Main page -->
+    <url>
+        <loc>http://localhost:3000/</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>1.0</priority>
+        <image:image>
+            <image:loc>http://localhost:3000/weather-preview.jpg</image:loc>
+            <image:title>Weather Alert USA - Real-time Weather Forecasts</image:title>
+            <image:caption>Comprehensive weather alerts and forecasts for the United States</image:caption>
+        </image:image>
+    </url>
+    
+    <!-- Weather forecast pages (virtual pages for different states) -->
+    <url>
+        <loc>http://localhost:3000/#forecast</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Weather alerts page -->
+    <url>
+        <loc>http://localhost:3000/#alerts</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Life indices page -->
+    <url>
+        <loc>http://localhost:3000/#life-indices</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- Weather charts page -->
+    <url>
+        <loc>http://localhost:3000/#charts</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- Settings page -->
+    <url>
+        <loc>http://localhost:3000/#settings</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+</urlset> 
